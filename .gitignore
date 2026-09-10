@@ -1,0 +1,8 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+.env
+worker/local_config.json
+.DS_Store
+Thumbs.db

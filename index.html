@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Track 2 討論板 | MVA Hackathon 2026</title>
+  <meta name="description" content="MVA Hackathon 2026 Track 2 組員討論板：提案、回覆，並可請本機 Ollama GPT-OSS:20B 協助規劃。" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23071018'/%3E%3Cpath d='M8 22V10h3.2l4.8 8.6L20.8 10H24v12h-2.4v-7.4L17.6 22h-3.2l-4-7.4V22H8z' fill='%232dd4bf'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/style.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="brand" href="#intro">
+        <span class="brand-kicker">MVA Hackathon 2026</span>
+        <strong>Track 2 討論板</strong>
+      </a>
+      <nav class="nav">
+        <a href="#intro">前言</a>
+        <a href="#board">留言板</a>
+        <a href="https://hunglinchen2003.github.io/mva-hackathon-2026-data/#drugs" target="_blank" rel="noopener">分析頁</a>
+        <a href="https://docs.google.com/spreadsheets/d/1lBt_9ARLPNZUOkS68ApBpddYzTcLCKJaHxh8Duc45dU/edit?usp=sharing" target="_blank" rel="noopener">試算表</a>
+      </nav>
+      <div class="status" id="ai-status" data-state="unknown">
+        <span class="dot"></span>
+        <span id="ai-status-text">AI 狀態未知</span>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero wrap" id="intro">
+      <p class="eyebrow">Rare Disease, Real Kid · SageBio × MVA Society</p>
+      <h1>針對 BUB1B 失能後的分子路徑，討論 Track 2 老藥新用要怎麼做。</h1>
+      <p class="lede">
+        這是組員共用的留言板。每人留下姓名與 Track 2 進行方式提案；其他人可以回覆；
+        也可以勾選請本機 <code>Ollama gpt-oss:20b</code> 依該提案寫一份可執行規劃。
+        所有留言寫入共用 Google 試算表，網頁本身放在 GitHub Pages。
+      </p>
+      <dl class="meta-grid">
+        <div><dt>樣本</dt><dd>WGS_EX2312012 · GRCh38</dd></div>
+        <div><dt>期限</dt><dd>2026-10-24</dd></div>
+        <div><dt>Track 1</dt><dd>BUB1B 複合雜合</dd></div>
+        <div><dt>Track 2</dt><dd>已核准藥物再利用</dd></div>
+      </dl>
+    </section>
+
+    <section class="wrap intro-grid">
+      <article class="card">
+        <h2>疾病與任務</h2>
+        <p>
+          馬賽克變異非整倍體（MVA）是極罕見的染色體不穩定疾病，全球已知病例不足 50 人，目前沒有標準治療。
+          本隊使用一位患童的真實 WGS 與 HPO 表型，參加 SageBio MVA Hackathon 2026。
+        </p>
+        <p>
+          Track 1 已指向 <strong>BUB1B</strong> 複合雜合（無義 + 有害 missense），符合紡錘體組裝檢查點失效的典型遺傳模式。
+          Track 2 要在這個機制上，篩 5–10 個<strong>已核准</strong>藥物，寫清標的通路、機制假說與證據等級。
+        </p>
+      </article>
+      <article class="card">
+        <h2>已知機制（規劃前提）</h2>
+        <ul class="plain">
+          <li><code>chr15:40209701 T&gt;G</code> p.Leu737Ter：截斷激酶結構域，可能 NMD，loss-of-function</li>
+          <li><code>chr15:40220612 T&gt;G</code> p.Asn1002Lys：激酶域 missense，hypomorphic</li>
+          <li>10 基因全長掃描後，僅 BUB1B 具成對功能變異</li>
+          <li>表型共現：癌症易感性、生長受限、腎臟異常、不良周產期史、父母反覆流產</li>
+        </ul>
+      </article>
+      <article class="card">
+        <h2>Track 2 現有策略草稿</h2>
+        <p>以 CMap / LINCS L1000 基因簽名，尋找能對抗 BUB1B LoF → mitotic checkpoint failure 的化合物。</p>
+        <ul class="plain">
+          <li>參考候選：Metformin、Rapamycin、Emetine；Paclitaxel 毒性高；Resveratrol 證據弱</li>
+          <li>應避免傷害染色體穩定性或兒科不可接受的高毒性方向</li>
+          <li>產出須可重現，並以 CC BY 4.0 釋出</li>
+        </ul>
+        <p class="fine">
+          詳細分析見
+          <a href="https://hunglinchen2003.github.io/mva-hackathon-2026-data/#workflow" target="_blank" rel="noopener">流程</a>
+          與
+          <a href="https://hunglinchen2003.github.io/mva-hackathon-2026-data/#drugs" target="_blank" rel="noopener">老藥新用</a>。
+        </p>
+      </article>
+    </section>
+
+    <section class="wrap" id="setup-banner" hidden>
+      <article class="card setup">
+        <h2>還差一步：接上 Google 試算表</h2>
+        <ol>
+          <li>開啟
+            <a href="https://docs.google.com/spreadsheets/d/1lBt_9ARLPNZUOkS68ApBpddYzTcLCKJaHxh8Duc45dU/edit?usp=sharing" target="_blank" rel="noopener">共用試算表</a>
+            → 擴充功能 → Apps Script，將
+            <a href="apps-script/Code.gs" target="_blank" rel="noopener">apps-script/Code.gs</a>
+            貼上並儲存。
+          </li>
+          <li>部署 → 新增部署 → 類型選「網頁應用程式」。執行身分：我；存取權：任何人。</li>
+          <li>把部署 URL 貼到下方（會存在此瀏覽器），並同步寫進倉庫的 <code>config.json</code> 的 <code>sheetsWebAppUrl</code>，全隊才看得到同一串留言。</li>
+        </ol>
+        <label class="field">
+          <span>Apps Script Web App URL</span>
+          <input id="webapp-url-input" type="url" placeholder="https://script.google.com/macros/s/…/exec" />
+        </label>
+        <div class="row">
+          <button type="button" class="btn" id="save-webapp">儲存並重新載入</button>
+        </div>
+      </article>
+    </section>
+
+    <section class="wrap board-section" id="board">
+      <div class="board-head">
+        <div>
+          <h2>組員留言板</h2>
+          <p class="fine">提案如何進行 Track 2。回覆會跟在原串底下；勾選 AI 後，需有人在本機執行 <code>worker/run.bat</code>。</p>
+        </div>
+        <button type="button" class="btn ghost" id="refresh-btn">重新整理</button>
+      </div>
+
+      <form class="card composer" id="composer">
+        <div class="composer-grid">
+          <label class="field">
+            <span>姓名</span>
+            <input id="author-input" name="author" maxlength="80" required placeholder="例如：Hung-Lin" autocomplete="nickname" />
+          </label>
+          <label class="field grow">
+            <span>Track 2 進行方式提案</span>
+            <textarea id="content-input" name="content" required rows="6" maxlength="8000" placeholder="例如：先在 CLUE.io 送 BUB1B-LoF 簽名，再用 cmapR 驗證前 20 名，最後只保留 FDA 核准且兒科可討論的藥……"></textarea>
+          </label>
+        </div>
+        <div class="composer-actions">
+          <label class="check">
+            <input type="checkbox" id="ask-ai-input" />
+            <span>請本機 AI（gpt-oss:20b）依這段提案做規劃</span>
+          </label>
+          <button type="submit" class="btn" id="submit-btn">送出提案</button>
+        </div>
+        <p class="fine" id="composer-msg" role="status"></p>
+      </form>
+
+      <div id="thread-list" class="threads" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <footer class="wrap footer">
+    <p>僅供研究討論，不構成醫療建議。患者資料受 IRB 與家長同意保護。</p>
+    <p>
+      <a href="https://github.com/hunglinchen2003/mva-track2-board" target="_blank" rel="noopener">GitHub</a>
+      ·
+      <a href="https://hunglinchen2003.github.io/mva-hackathon-2026-data/" target="_blank" rel="noopener">分析計畫</a>
+    </p>
+  </footer>
+
+  <script src="assets/app.js"></script>
+</body>
+</html>

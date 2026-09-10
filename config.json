@@ -1,0 +1,10 @@
+{
+  "sheetsWebAppUrl": "",
+  "teamToken": "mva-track2-2026",
+  "spreadsheetId": "1lBt_9ARLPNZUOkS68ApBpddYzTcLCKJaHxh8Duc45dU",
+  "spreadsheetUrl": "https://docs.google.com/spreadsheets/d/1lBt_9ARLPNZUOkS68ApBpddYzTcLCKJaHxh8Duc45dU/edit?usp=sharing",
+  "ollamaUrl": "http://127.0.0.1:11434",
+  "ollamaModel": "gpt-oss:20b",
+  "briefUrl": "https://hunglinchen2003.github.io/mva-hackathon-2026-data/#drugs",
+  "deadline": "2026-10-24"
+}
