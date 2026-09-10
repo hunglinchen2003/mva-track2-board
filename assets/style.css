@@ -262,6 +262,7 @@ input:focus, textarea:focus {
 .post-actions { display: flex; gap: 8px; margin-top: 10px; }
 .replies { display: grid; gap: 10px; margin-left: 14px; padding-left: 14px; border-left: 2px solid var(--line); }
 .reply-form { display: grid; gap: 8px; margin-top: 8px; }
+.reply-form[hidden] { display: none; }
 .empty {
   color: var(--muted);
   text-align: center;
