@@ -240,6 +240,7 @@ function render() {
 async function refresh() {
   if (!webappReady()) {
     showSetup(true);
+    render();
     return;
   }
   showSetup(false);
