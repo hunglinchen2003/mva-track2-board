@@ -185,6 +185,120 @@ function escapeHtml(str) {
     .replaceAll('"', "&quot;");
 }
 
+function inlineMd(text) {
+  let s = text;
+  s = s.replace(/`([^`]+)`/g, "<code>$1</code>");
+  s = s.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+  s = s.replace(/__([^_]+)__/g, "<strong>$1</strong>");
+  s = s.replace(/(^|[^\*])\*([^*\n]+)\*/g, "$1<em>$2</em>");
+  s = s.replace(
+    /\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g,
+    '<a href="$2" target="_blank" rel="noopener">$1</a>'
+  );
+  return s;
+}
+
+function splitRow(line) {
+  const trimmed = line.trim().replace(/^\|/, "").replace(/\|$/, "");
+  return trimmed.split("|").map((cell) => inlineMd(cell.trim()));
+}
+
+function isTableSep(line) {
+  return /^\s*\|?(\s*:?-{3,}:?\s*\|)+\s*:?-{3,}:?\s*\|?\s*$/.test(line);
+}
+
+function renderMarkdown(src) {
+  const lines = escapeHtml(String(src || "")).replaceAll("\r\n", "\n").split("\n");
+  const html = [];
+  let i = 0;
+
+  function takeList(ordered) {
+    const tag = ordered ? "ol" : "ul";
+    const re = ordered ? /^\s*\d+\.\s+(.*)$/ : /^\s*[-*+]\s+(.*)$/;
+    const items = [];
+    while (i < lines.length) {
+      const m = lines[i].match(re);
+      if (!m) break;
+      items.push(`<li>${inlineMd(m[1])}</li>`);
+      i += 1;
+    }
+    html.push(`<${tag}>${items.join("")}</${tag}>`);
+  }
+
+  while (i < lines.length) {
+    const line = lines[i];
+    if (!line.trim()) {
+      i += 1;
+      continue;
+    }
+    if (line.trim().startsWith("```")) {
+      const fence = [];
+      i += 1;
+      while (i < lines.length && !lines[i].trim().startsWith("```")) {
+        fence.push(lines[i]);
+        i += 1;
+      }
+      if (i < lines.length) i += 1;
+      html.push(`<pre><code>${fence.join("\n")}</code></pre>`);
+      continue;
+    }
+    if (line.includes("|") && i + 1 < lines.length && isTableSep(lines[i + 1])) {
+      const headers = splitRow(line);
+      i += 2;
+      const body = [];
+      while (i < lines.length && lines[i].includes("|") && !isTableSep(lines[i])) {
+        if (!lines[i].trim()) break;
+        body.push(splitRow(lines[i]));
+        i += 1;
+      }
+      html.push(
+        `<div class="md-table-wrap"><table><thead><tr>${headers
+          .map((h) => `<th>${h}</th>`)
+          .join("")}</tr></thead><tbody>${body
+          .map((row) => `<tr>${row.map((c) => `<td>${c}</td>`).join("")}</tr>`)
+          .join("")}</tbody></table></div>`
+      );
+      continue;
+    }
+    const heading = line.match(/^(#{1,6})\s+(.+)$/);
+    if (heading) {
+      const level = heading[1].length;
+      html.push(`<h${level}>${inlineMd(heading[2])}</h${level}>`);
+      i += 1;
+      continue;
+    }
+    if (/^\s*[-*+]\s+/.test(line)) {
+      takeList(false);
+      continue;
+    }
+    if (/^\s*\d+\.\s+/.test(line)) {
+      takeList(true);
+      continue;
+    }
+    const para = [inlineMd(line)];
+    i += 1;
+    while (
+      i < lines.length &&
+      lines[i].trim() &&
+      !/^\s*[-*+]\s+/.test(lines[i]) &&
+      !/^\s*\d+\.\s+/.test(lines[i]) &&
+      !lines[i].trim().startsWith("#") &&
+      !lines[i].trim().startsWith("```") &&
+      !(lines[i].includes("|") && i + 1 < lines.length && isTableSep(lines[i + 1]))
+    ) {
+      para.push(inlineMd(lines[i]));
+      i += 1;
+    }
+    html.push(`<p>${para.join("<br>")}</p>`);
+  }
+  return html.join("");
+}
+
+function formatBody(m) {
+  if (m.role === "ai") return renderMarkdown(m.content);
+  return escapeHtml(m.content);
+}
+
 function postView(m, childHtmlParts) {
   const ai = m.role === "ai";
   const pending = m.ask_ai && m.ai_status === "pending";
@@ -199,7 +313,7 @@ function postView(m, childHtmlParts) {
         ${pending ? '<span class="badge pending">等待 AI</span>' : ""}
         <span>${escapeHtml(parseTime(m.created_at))}</span>
       </div>
-      <div class="post-body">${escapeHtml(m.content)}</div>
+      <div class="post-body${ai ? " md" : ""}">${formatBody(m)}</div>
       ${
         ai
           ? ""

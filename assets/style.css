@@ -259,6 +259,71 @@ input:focus, textarea:focus {
   white-space: pre-wrap;
   word-break: break-word;
 }
+.post-body.md {
+  white-space: normal;
+}
+.post-body.md p { margin: 0 0 10px; }
+.post-body.md p:last-child { margin-bottom: 0; }
+.post-body.md strong { color: var(--text); font-weight: 700; }
+.post-body.md em { font-style: italic; }
+.post-body.md h1,
+.post-body.md h2,
+.post-body.md h3,
+.post-body.md h4 {
+  margin: 16px 0 8px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--accent);
+}
+.post-body.md h1:first-child,
+.post-body.md h2:first-child,
+.post-body.md h3:first-child { margin-top: 0; }
+.post-body.md ul,
+.post-body.md ol {
+  margin: 0 0 12px;
+  padding-left: 22px;
+  color: var(--muted);
+}
+.post-body.md li + li { margin-top: 4px; }
+.post-body.md code {
+  font-size: 0.88em;
+}
+.post-body.md pre {
+  overflow-x: auto;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 12px;
+  margin: 0 0 12px;
+}
+.post-body.md pre code {
+  background: none;
+  padding: 0;
+  color: var(--text);
+}
+.md-table-wrap {
+  overflow-x: auto;
+  margin: 0 0 12px;
+}
+.post-body.md table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+.post-body.md th,
+.post-body.md td {
+  border: 1px solid var(--line);
+  padding: 8px 10px;
+  text-align: left;
+  vertical-align: top;
+}
+.post-body.md th {
+  background: var(--bg);
+  color: var(--accent);
+  font-weight: 600;
+  white-space: nowrap;
+}
+.post-body.md td { color: var(--muted); }
 .post-actions { display: flex; gap: 8px; margin-top: 10px; }
 .replies { display: grid; gap: 10px; margin-left: 14px; padding-left: 14px; border-left: 2px solid var(--line); }
 .reply-form { display: grid; gap: 8px; margin-top: 8px; }
